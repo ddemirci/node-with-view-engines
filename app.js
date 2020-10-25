@@ -10,17 +10,19 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static(path.join(rootPath,'public'))); //to be able to use files in public folders
 
+app.set('view engine', 'pug');
+app.set('views', 'views'); //Normally it is not needed because default is "views"
+
 //Setting routes
 app.use('/shop', shopData.router);
-app.use('/admin', adminData);
+app.use('/admin', adminData.router);
 
 app.get('/', (req,res) => {
-    res.send('<h1> Main </h1>');
+    res.render('main', {pageTitle: 'Main Page'});
 });
 
 app.use( (req,res) => {
-    res.status(404); //Not Found Page
-    res.send('<h1> Not Found </h1>');
-})
+    res.status(404).res.render('404', {pageTitle: 'Not Found'});
+});
 
 app.listen(3000);

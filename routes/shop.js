@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
-
-const products = [];
+const adminData = require('./admin');
 
 router.get('/', (req,res) => {
-    res.send('<h1> Shop </h1>');
+    const products = adminData.products
+    res.render('shop', {
+        products:products,
+        pageTitle: 'Shop',
+        path: '/shop'
+    });
 });
 
 module.exports = {
-    router: router,    
-    products: products
+    router: router
 }
