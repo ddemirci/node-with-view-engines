@@ -12,15 +12,20 @@ app.use(express.static(path.join(rootPath,'public'))); //to be able to use files
 
 //Setting routes
 app.use('/shop', shopData.router);
-app.use('/admin', adminData);
+app.use('/admin', adminData.router);
+
+app.set('view engine', 'ejs');
+app.set('views', 'views'); //By default it is "views" folder so not needed
 
 app.get('/', (req,res) => {
-    res.send('<h1> Main </h1>');
+    res.render('main', {
+        pageTitle: 'Main Page',
+        path: '/',
+        activeMain: true });
 });
 
 app.use( (req,res) => {
-    res.status(404); //Not Found Page
-    res.send('<h1> Not Found </h1>');
+    res.status(404).render('404', {pageTitle: 'Not Found', path:''});
 })
 
 app.listen(3000);
